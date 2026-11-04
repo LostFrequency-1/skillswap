@@ -1,16 +1,9 @@
 import type { Metadata } from 'next'
-import { Sparkles } from 'lucide-react'
-import { ModulePlaceholder } from '@/components/shared/module-placeholder'
+import { MatchingPage } from '@/components/matching/matching-page'
+import { CURRENT_USER } from '@/lib/data/users'
 
-export const metadata: Metadata = { title: "Matches" }
+export const metadata: Metadata = { title: 'Matches' }
 
 export default function Page() {
-  return (
-    <ModulePlaceholder
-      title="Matches"
-      description="Recommended learning partners based on your goals and schedule."
-      icon={Sparkles}
-      plannedFeatures={["Match percentage","Level compatibility","Availability overlap","Match explanations"]}
-    />
-  )
+  return <MatchingPage currentUser={CURRENT_USER} />
 }
