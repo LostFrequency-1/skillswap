@@ -7,12 +7,11 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Progress } from '@/components/ui/progress'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { PageHeader } from '@/components/shared/page-header'
 import { SkillIcon } from '@/components/shared/skill-icon'
-import { LevelBadge, VerifiedBadge } from '@/components/shared/status-badges'
+import { LevelBadge } from '@/components/shared/status-badges'
 import { CURRENT_USER } from '@/lib/data/users'
 import { SKILLS, PROFICIENCY_LEVELS } from '@/lib/data/skills'
 import type { LearningSkill, ProficiencyLevel, TeachingSkill } from '@/lib/types'
@@ -30,8 +29,8 @@ function AddSkillDialog({ mode, onAdd }: { mode: 'teach' | 'learn'; onAdd: (skil
 
 function TeachCard({ item, onRemove }: { item: TeachingSkill; onRemove: () => void }) {
   const skill = SKILLS.find((entry) => entry.id === item.skillId)!
-  const score = item.verifiedLevels.length ? Math.min(100, 55 + item.verifiedLevels.length * 15) : 0
-  return <Card><CardContent className="flex flex-col gap-4 p-5"><div className="flex items-start justify-between gap-3"><div className="flex items-center gap-3"><SkillIcon skillId={item.skillId} /><div><h3 className="font-medium">{skill.name}</h3><p className="text-sm text-muted-foreground">Self-declared: {item.selfDeclaredLevel}</p></div></div><div className="flex gap-1"><Button variant="ghost" size="icon" aria-label={`Edit ${skill.name}`} onClick={() => toast.info('Skill editing will open here in the next polish pass')}><Pencil /></Button><Button variant="ghost" size="icon" aria-label={`Remove ${skill.name}`} onClick={onRemove}><Trash2 /></Button></div></div><Separator /><div className="flex flex-col gap-2"><div className="flex items-center justify-between"><span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Verified teaching levels</span><span className="text-xs text-muted-foreground">{item.verifiedLevels.length}/3</span></div><Progress value={score} aria-label={`${skill.name} verification progress`} /><div className="flex flex-wrap gap-2">{PROFICIENCY_LEVELS.map((level) => <VerifiedBadge key={level} level={level} verified={item.verifiedLevels.includes(level)} />)}</div></div><div className="flex items-center justify-between rounded-lg bg-muted/50 p-3"><span className="text-sm text-muted-foreground">Assessment status</span><Badge variant={item.verifiedLevels.length ? 'secondary' : 'outline'}>{item.verifiedLevels.length ? 'Partially verified' : 'Not attempted'}</Badge></div></CardContent></Card>
+  const isVerified = item.verifiedLevels.includes(item.selfDeclaredLevel)
+  return <Card><CardContent className="flex flex-col gap-4 p-5"><div className="flex items-start justify-between gap-3"><div className="flex items-center gap-3"><SkillIcon skillId={item.skillId} /><div><h3 className="font-medium">{skill.name}</h3><div className="mt-1 flex items-center gap-2"><span className="text-sm text-muted-foreground">Teaching level:</span><LevelBadge level={item.selfDeclaredLevel} /></div></div></div><div className="flex gap-1"><Button variant="ghost" size="icon" aria-label={`Edit ${skill.name}`} onClick={() => toast.info('Skill editing will open here in the next polish pass')}><Pencil /></Button><Button variant="ghost" size="icon" aria-label={`Remove ${skill.name}`} onClick={onRemove}><Trash2 /></Button></div></div><Separator /><div className="flex items-center justify-between rounded-lg bg-muted/50 p-3"><span className="text-sm text-muted-foreground">Assessment status</span><Badge variant={isVerified ? 'secondary' : 'outline'}>{isVerified ? 'Verified' : 'Not attempted'}</Badge></div></CardContent></Card>
 }
 
 function LearnCard({ item, onRemove }: { item: LearningSkill; onRemove: () => void }) {
