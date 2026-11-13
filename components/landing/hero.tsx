@@ -48,7 +48,7 @@ export function Hero() {
                 id="hero-search"
                 name="q"
                 type="search"
-                placeholder="Try Python, DBMS or Machine Learning"
+                placeholder="Try React, Rust or Data Analysis"
                 className="h-11 bg-background pl-9"
               />
             </div>

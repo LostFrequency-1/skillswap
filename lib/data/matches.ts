@@ -1,4 +1,5 @@
 import type { User } from '@/lib/types'
+import { getSkill } from './skills'
 import { TEACHERS } from './teachers'
 
 export interface Match {
@@ -38,7 +39,7 @@ export function generateMatches(currentUser: User): Match[] {
       const levelScore = levelMatch ? 30 : 10
       const matchPercentage = Math.round(availabilityScore + ratingScore + levelScore)
 
-      const skillName = { 'java': 'Java', 'python': 'Python', 'dsa': 'Data Structures', 'ml': 'Machine Learning', 'dbms': 'DBMS', 'cpp': 'C++' }[learning.skillId] || learning.skillId
+      const skillName = getSkill(learning.skillId).name
 
       matches.push({
         teacher,
