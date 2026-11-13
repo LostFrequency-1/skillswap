@@ -56,7 +56,7 @@ function TeacherCard({ teacher, onRequest }: { teacher: (typeof TEACHERS)[number
         <div className="flex items-center justify-between border-t pt-4">
           <div className="flex flex-col gap-1">
             <Rating value={teacher.rating} reviewCount={teacher.reviewCount} />
-            <span className="text-xs text-success">Available {teacher.availability.timesOfDay.join(' · ')}</span>
+            <span className="truncate text-xs text-success">Available {Object.entries(teacher.availability.byDay).flatMap(([day, dayTimes]) => (dayTimes ?? []).map((time) => `${day} ${time}`)).join(' · ')}</span>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={() => toast.info(`${teacher.name}'s profile`, { description: 'Full public profile will open in the next flow.' })}>View profile</Button>

@@ -31,8 +31,7 @@ export interface LearningSkill {
 }
 
 export interface Availability {
-  days: Weekday[]
-  timesOfDay: TimeOfDay[]
+  byDay: Partial<Record<Weekday, TimeOfDay[]>>
 }
 
 export interface TeachingProfile {
