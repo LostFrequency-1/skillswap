@@ -13,8 +13,8 @@ export function SkillCategories() {
         <SectionHeading
           id="skills-title"
           eyebrow="Featured skills"
-          title="Six core skills, every level covered"
-          description="We are starting focused. Each skill has Beginner, Intermediate and Advanced assessments."
+          title="Explore skills across every level"
+          description="Choose what you can teach, discover what you want to learn, and build skills with peers."
         />
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {SKILLS.map((skill) => (

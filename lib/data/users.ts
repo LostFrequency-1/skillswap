@@ -19,7 +19,7 @@ export const CURRENT_USER: User = {
     { skillId: 'ml', currentLevel: 'Beginner', desiredLevel: 'Intermediate' },
     { skillId: 'dsa', currentLevel: 'Intermediate', desiredLevel: 'Advanced' },
   ],
-  availability: { days: ['Tue', 'Thu', 'Sat'], timesOfDay: ['Evening'] },
+  availability: { byDay: { Tue: ['Evening'], Thu: ['Evening'], Sat: ['Evening'] } },
   role: 'member',
 }
 

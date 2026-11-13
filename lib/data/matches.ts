@@ -1,4 +1,5 @@
 import type { User } from '@/lib/types'
+import { getSkill } from './skills'
 import { TEACHERS } from './teachers'
 
 export interface Match {
@@ -29,15 +30,16 @@ export function generateMatches(currentUser: User): Match[] {
       const teachesNum = levelMap[teaches.selfDeclaredLevel]
       const levelMatch = teachesNum >= desiredNum
 
-      const availabilityMatch = teacher.availability.days.some(d => currentUser.availability.days.includes(d)) &&
-        teacher.availability.timesOfDay.some(t => currentUser.availability.timesOfDay.includes(t))
+      const availabilityMatch = Object.entries(teacher.availability.byDay).some(([day, teacherTimes]) =>
+        teacherTimes?.some((time) => currentUser.availability.byDay[day as keyof typeof currentUser.availability.byDay]?.includes(time)),
+      )
       const availabilityScore = availabilityMatch ? 30 : 0
 
       const ratingScore = (teacher.rating / 5) * 20
       const levelScore = levelMatch ? 30 : 10
       const matchPercentage = Math.round(availabilityScore + ratingScore + levelScore)
 
-      const skillName = { 'java': 'Java', 'python': 'Python', 'dsa': 'Data Structures', 'ml': 'Machine Learning', 'dbms': 'DBMS', 'cpp': 'C++' }[learning.skillId] || learning.skillId
+      const skillName = getSkill(learning.skillId).name
 
       matches.push({
         teacher,
